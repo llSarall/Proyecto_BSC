@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">web</a>
+        <a class="navbar-brand" href="">BSC</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,22 +9,46 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="nav flex-column">
+    <div class="nav-item px-3">
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Inicio
+        </NavLink>
+    </div>
+
+    <AuthorizeView Roles="Administrador">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="usuarios/nuevo">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Nuevo usuario
+            </NavLink>
+        </div>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Personal Administrativo">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="productos/nuevo">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Registrar producto
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="productos/existencias">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Existencias
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" href="pedidos">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Pedidos
             </NavLink>
         </div>
-    </nav>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Vendedor">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="pedidos/nuevo">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Nuevo pedido
+            </NavLink>
+        </div>
+    </AuthorizeView>
+</nav>
 </div>
 
 @code {

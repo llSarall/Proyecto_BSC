@@ -1,0 +1,129 @@
+﻿@page "/pedidos/nuevo"
+@attribute [Authorize(Roles = "Vendedor")]
+@using Entities
+@inject HttpClient Http
+
+<PageTitle>Nuevo pedido | BSC</PageTitle>
+<h2 class="mb-4">Nuevo pedido</h2>
+
+@if (productos is null && error is null)
+{
+    <p>Cargando productos...</p>
+}
+else
+{
+    <div class="card shadow-sm" style="max-width: 520px;">
+        <div class="card-body">
+            <EditForm Model="modelo" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label class="form-label">Cliente</label>
+                    <InputText class="form-control" @bind-Value="modelo.NombreCliente" />
+                    <ValidationMessage For="() => modelo.NombreCliente" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Producto</label>
+                    <InputSelect class="form-select" @bind-Value="modelo.IdProducto">
+                        <option value="0">-- Selecciona un producto --</option>
+                        @foreach (var p in productos ?? [])
+                        {
+                            <option value="@p.IdProducto" disabled="@(p.Existencia == 0)">
+                                @p.ClaveProducto - @p.NombreProducto (Existencia: @p.Existencia)
+                            </option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => modelo.IdProducto" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cantidad de piezas</label>
+                    <InputNumber class="form-control" @bind-Value="modelo.Cantidad" />
+                    @if (ProductoSeleccionado is not null)
+                    {
+                        <div class="form-text">Disponibles: @ProductoSeleccionado.Existencia</div>
+                    }
+                    <ValidationMessage For="() => modelo.Cantidad" />
+                </div>
+
+                @if (error is not null) { <div class="alert alert-danger py-2">@error</div> }
+                @if (exito is not null) { <div class="alert alert-success py-2">@exito</div> }
+
+                <button type="submit" class="btn btn-primary" disabled="@guardando">
+                    @(guardando ? "Registrando..." : "Registrar pedido")
+                </button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    private record RespuestaPedido(int IdPedido);
+
+    private List<Producto>? productos;
+    private CrearPedidoRequest modelo = new();
+    private string? error;
+    private string? exito;
+    private bool guardando;
+
+    private Producto? ProductoSeleccionado =>
+        productos?.FirstOrDefault(p => p.IdProducto == modelo.IdProducto);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarProductos();
+    }
+
+    private async Task CargarProductos()
+    {
+        try
+        {
+            productos = await Http.GetFromJsonAsync<List<Producto>>("api/productos");
+        }
+        catch (HttpRequestException)
+        {
+            error = "No se pudieron cargar los productos.";
+        }
+    }
+
+    private async Task Guardar()
+    {
+        error = null;
+        exito = null;
+
+        // Validación rápida en pantalla; la validación definitiva la hace la base de datos
+        if (ProductoSeleccionado is not null && modelo.Cantidad > ProductoSeleccionado.Existencia)
+        {
+            error = $"Solo hay {ProductoSeleccionado.Existencia} piezas disponibles.";
+            return;
+        }
+
+        guardando = true;
+
+        try
+        {
+            var respuesta = await Http.PostAsJsonAsync("api/pedidos", modelo);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                var resultado = await respuesta.Content.ReadFromJsonAsync<RespuestaPedido>();
+                exito = $"Pedido #{resultado?.IdPedido} registrado correctamente.";
+                modelo = new();
+                await CargarProductos(); // refresca las existencias ya descontadas
+            }
+            else
+            {
+                error = await respuesta.LeerErrorAsync();
+            }
+        }
+        catch (HttpRequestException)
+        {
+            error = "No se pudo conectar con el servidor.";
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+}

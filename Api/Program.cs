@@ -35,6 +35,15 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 builder.Services.AddSingleton<TokenService>();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirWeb", policy =>
+        policy.WithOrigins("https://localhost:7051")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 // Autenticación con JWT
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 
@@ -72,6 +81,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "BSC API"));
 }
 
+app.UseCors("PermitirWeb");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

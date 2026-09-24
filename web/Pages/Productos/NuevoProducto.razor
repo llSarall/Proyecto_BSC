@@ -1,0 +1,76 @@
+﻿@page "/productos/nuevo"
+@attribute [Authorize(Roles = "Personal Administrativo")]
+@inject HttpClient Http
+
+<PageTitle>Registrar producto | BSC</PageTitle>
+<h2 class="mb-4">Registrar producto</h2>
+
+<div class="card shadow-sm" style="max-width: 520px;">
+    <div class="card-body">
+        <EditForm Model="modelo" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label class="form-label">Clave del producto</label>
+                <InputText class="form-control" @bind-Value="modelo.ClaveProducto" />
+                <ValidationMessage For="() => modelo.ClaveProducto" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <InputText class="form-control" @bind-Value="modelo.NombreProducto" />
+                <ValidationMessage For="() => modelo.NombreProducto" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Existencia inicial</label>
+                <InputNumber class="form-control" @bind-Value="modelo.Existencia" />
+                <ValidationMessage For="() => modelo.Existencia" />
+            </div>
+
+            @if (error is not null) { <div class="alert alert-danger py-2">@error</div> }
+            @if (exito is not null) { <div class="alert alert-success py-2">@exito</div> }
+
+            <button type="submit" class="btn btn-primary" disabled="@guardando">
+                @(guardando ? "Guardando..." : "Registrar producto")
+            </button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private RegistrarProductoRequest modelo = new();
+    private string? error;
+    private string? exito;
+    private bool guardando;
+
+    private async Task Guardar()
+    {
+        guardando = true;
+        error = null;
+        exito = null;
+
+        try
+        {
+            var respuesta = await Http.PostAsJsonAsync("api/productos", modelo);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                exito = $"Producto '{modelo.NombreProducto}' registrado correctamente.";
+                modelo = new();
+            }
+            else
+            {
+                error = await respuesta.LeerErrorAsync();
+            }
+        }
+        catch (HttpRequestException)
+        {
+            error = "No se pudo conectar con el servidor.";
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+}

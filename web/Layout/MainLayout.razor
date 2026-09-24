@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inherits LayoutComponentBase
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,11 +9,23 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <AuthorizeView>
+        <span class="me-3">@context.User.Identity?.Name (@context.User.FindFirst("role")?.Value)</span>
+        <button class="btn btn-outline-secondary btn-sm" @onclick="CerrarSesion">Cerrar sesión</button>
+    </AuthorizeView>
+</div>
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+
+@code {
+    private async Task CerrarSesion()
+    {
+        await AuthService.CerrarSesionAsync();
+        Navigation.NavigateTo("login");
+    }
+}

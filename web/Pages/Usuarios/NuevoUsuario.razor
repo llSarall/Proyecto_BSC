@@ -1,0 +1,82 @@
+﻿@page "/usuarios/nuevo"
+@attribute [Authorize(Roles = "Administrador")]
+@inject HttpClient Http
+
+<PageTitle>Nuevo usuario | BSC</PageTitle>
+<h2 class="mb-4">Nuevo usuario</h2>
+
+<div class="card shadow-sm" style="max-width: 520px;">
+    <div class="card-body">
+        <EditForm Model="modelo" OnValidSubmit="Guardar">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                <InputText class="form-control" @bind-Value="modelo.Usuario" />
+                <ValidationMessage For="() => modelo.Usuario" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <InputText type="password" class="form-control" @bind-Value="modelo.Password" />
+                <div class="form-text">Mínimo 8 caracteres, con letras y números.</div>
+                <ValidationMessage For="() => modelo.Password" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Perfil</label>
+                <InputSelect class="form-select" @bind-Value="modelo.IdPerfil">
+                    <option value="0">-- Selecciona un perfil --</option>
+                    <option value="1">Administrador</option>
+                    <option value="2">Personal Administrativo</option>
+                    <option value="3">Vendedor</option>
+                </InputSelect>
+                <ValidationMessage For="() => modelo.IdPerfil" />
+            </div>
+
+            @if (error is not null) { <div class="alert alert-danger py-2">@error</div> }
+            @if (exito is not null) { <div class="alert alert-success py-2">@exito</div> }
+
+            <button type="submit" class="btn btn-primary" disabled="@guardando">
+                @(guardando ? "Guardando..." : "Crear usuario")
+            </button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private CrearUsuarioRequest modelo = new();
+    private string? error;
+    private string? exito;
+    private bool guardando;
+
+    private async Task Guardar()
+    {
+        guardando = true;
+        error = null;
+        exito = null;
+
+        try
+        {
+            var respuesta = await Http.PostAsJsonAsync("api/usuarios", modelo);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                exito = $"Usuario '{modelo.Usuario}' creado correctamente.";
+                modelo = new();
+            }
+            else
+            {
+                error = await respuesta.LeerErrorAsync();
+            }
+        }
+        catch (HttpRequestException)
+        {
+            error = "No se pudo conectar con el servidor.";
+        }
+        finally
+        {
+            guardando = false;
+        }
+    }
+}

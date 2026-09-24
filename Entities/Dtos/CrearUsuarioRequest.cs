@@ -11,6 +11,8 @@ namespace Entities.Dtos
         public string Usuario { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d).{8,}$",
+        ErrorMessage = "Mínimo 8 caracteres, con al menos una letra y un número.")]
         public string Password { get; set; } = string.Empty;
 
         [Range(1, int.MaxValue, ErrorMessage = "Selecciona un perfil.")]
