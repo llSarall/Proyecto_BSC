@@ -27,7 +27,7 @@ DECLARE @id_tuerca   INT = (SELECT id_producto FROM productos WHERE clave_produc
 DECLARE @id_rondana  INT = (SELECT id_producto FROM productos WHERE clave_producto = 'RON01');
 
 /*Para la creación de los pedidos vamos a utilizar un procedimiento almacenado, son los mismos que usamos
-en la app, ademas usaremos un trigger que descuenta la existencia de los productos cuando se realiza un pedido*/
+en la app, ademas hay un trigger que descuenta la existencia de los productos cuando se realiza un pedido*/
 EXEC sp_crear_pedido @nombre_cliente = 'Pedro Ramírez',     @id_usuario_registro = @id_vendedor,
                      @id_producto = @id_tornillo, @cantidad = 20;
 

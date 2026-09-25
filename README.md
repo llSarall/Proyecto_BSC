@@ -63,9 +63,9 @@ Los scripts están en la carpeta `Base de datos` y deben ejecutarse en orden sob
 
 | Usuario | Contraseña | Perfil | Funcionalidad |
 |---|---|---|---|
-| admin_01 | (Admin123) | Administrador | Crear usuarios y asignar perfil |
-| almacen01 | (Almacen123) | Personal Administrativo | Registrar productos, reporte de existencias y consulta de pedidos |
-| vendedor01 | (Ventas123) | Vendedor | Colocar pedidos con validación de existencia |
+| admin_01 | Admin123 | Administrador | Crear usuarios y asignar perfil |
+| almacen01 | Almacen123 | Personal Administrativo | Registrar productos, reporte de existencias y consulta de pedidos |
+| vendedor01 | Ventas123 | Vendedor | Colocar pedidos con validación de existencia |
 
 ## Seguridad
 
