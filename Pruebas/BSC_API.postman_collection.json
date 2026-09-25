@@ -1,0 +1,266 @@
+{
+  "info": {
+    "_postman_id": "3178d4b4-d676-4264-aee1-a106da43556f",
+    "name": "BSC",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23886530"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0jc1}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"Sarai\",\r\n  \"password\": \"sara123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7176/api/Auth/login",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Usuarios",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0h0b}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "   {\r\n     \"usuario\": \"AlejandroM\",\r\n     \"password\": \"ale123456\",\r\n     \"idPerfil\": 1\r\n   }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7176/api/Usuarios",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Usuarios"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Productos",
+      "request": {
+        "auth": {
+          "type": "bearer"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"claveProducto\": \"string\",\r\n  \"nombreProducto\": \"string\",\r\n  \"existencia\": 2147483647\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7176/api/Productos",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Productos",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJCU0MuV2ViIiwiaXNzIjoiQlNDLkFwaSIsImV4cCI6MTc5MDMxNzYwNiwic3ViIjoiMiIsIm5hbWUiOiJhbG1hY2VuMDEiLCJyb2xlIjoiUGVyc29uYWwgQWRtaW5pc3RyYXRpdm8iLCJpYXQiOjE3OTAzMTQwMDYsIm5iZiI6MTc5MDMxNDAwNn0.aVncX-gco2w6nczyTFL5lgojV0Pa2vGPETBqLRVznrs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7176/api/Productos",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Productos y Existencia",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJCU0MuV2ViIiwiaXNzIjoiQlNDLkFwaSIsImV4cCI6MTc5MDMxNzYwNiwic3ViIjoiMiIsIm5hbWUiOiJhbG1hY2VuMDEiLCJyb2xlIjoiUGVyc29uYWwgQWRtaW5pc3RyYXRpdm8iLCJpYXQiOjE3OTAzMTQwMDYsIm5iZiI6MTc5MDMxNDAwNn0.aVncX-gco2w6nczyTFL5lgojV0Pa2vGPETBqLRVznrs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7176/api/Productos/existencias",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Productos",
+            "existencias"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Pedido",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJCU0MuV2ViIiwiaXNzIjoiQlNDLkFwaSIsImV4cCI6MTc5MDMxNzc5Mywic3ViIjoiMyIsIm5hbWUiOiJ2ZW5kZWRvcjAxIiwicm9sZSI6IlZlbmRlZG9yIiwiaWF0IjoxNzkwMzE0MTkzLCJuYmYiOjE3OTAzMTQxOTN9._W-_Maj2zb9U2tXsjHv3cfXCgCzIQ5O-3TK0lk_uWTY",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombreCliente\": \"Ferreteria01\",\r\n  \"idProducto\": 1,\r\n  \"cantidad\": 2\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7176/api/Pedidos",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Pedidos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Pedido",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJCU0MuV2ViIiwiaXNzIjoiQlNDLkFwaSIsImV4cCI6MTc5MDMxNzkxNywic3ViIjoiMiIsIm5hbWUiOiJhbG1hY2VuMDEiLCJyb2xlIjoiUGVyc29uYWwgQWRtaW5pc3RyYXRpdm8iLCJpYXQiOjE3OTAzMTQzMTcsIm5iZiI6MTc5MDMxNDMxN30.AxNsQd6n1gHq8p2qI3sY3V1s1hio14iz6Pl-tQKRlsE",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7176/api/Pedidos",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7176",
+          "path": [
+            "api",
+            "Pedidos"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_0jc1",
+      "secret": true
+    }
+  ]
+}
