@@ -78,7 +78,7 @@ Los scripts están en la carpeta `Base de datos` y deben ejecutarse en orden sob
 
 ## Pruebas
 
-La colección de Postman con los endpoints está en `(ruta de tu colección)`.
+La colección de Postman con los endpoints está en Pruebas/BSC_API.postman_collection.json
 
 ## Mejoras a futuro
 
