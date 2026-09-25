@@ -46,7 +46,6 @@ public class JwtAuthStateProvider : AuthenticationStateProvider
         }
         catch
         {
-            // Token con formato inválido: se descarta
             await _js.InvokeVoidAsync("localStorage.removeItem", ClaveToken);
             return Anonimo;
         }
@@ -67,7 +66,6 @@ public class JwtAuthStateProvider : AuthenticationStateProvider
 
     private static List<Claim> LeerClaims(string token)
     {
-        // El JWT es encabezado.datos.firma; los datos están en Base64Url
         var payload = token.Split('.')[1]
             .Replace('-', '+')
             .Replace('_', '/');

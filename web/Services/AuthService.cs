@@ -14,7 +14,6 @@ public class AuthService
         _authStateProvider = authStateProvider;
     }
 
-    /// <summary>Devuelve null si el login fue exitoso, o el mensaje de error.</summary>
     public async Task<string?> IniciarSesionAsync(LoginRequest request)
     {
         var respuesta = await _http.PostAsJsonAsync("api/auth/login", request);

@@ -13,7 +13,6 @@ var apiUrl = builder.Configuration["ApiUrl"]
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 
-// Autenticación
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<JwtAuthStateProvider>();

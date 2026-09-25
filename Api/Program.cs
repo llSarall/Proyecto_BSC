@@ -9,16 +9,11 @@ using Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===================== 1. REGISTRO DE SERVICIOS =====================
-
-// Dapper: mapea columnas snake_case (id_producto) a propiedades PascalCase (IdProducto)
 Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-// Cadena de conexión desde appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("BSC")
     ?? throw new InvalidOperationException("No se encontró la cadena de conexión 'BSC'.");
 
-// Inyección de dependencias
 builder.Services.AddSingleton(new DbConnectionFactory(connectionString));
 
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>(); 
@@ -44,7 +39,6 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// Autenticación con JWT
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 
 builder.Services
@@ -72,8 +66,6 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 app.UseExceptionHandler();
-
-// ===================== 2. PIPELINE DE PETICIONES =====================
 
 if (app.Environment.IsDevelopment())
 {

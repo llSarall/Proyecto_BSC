@@ -93,7 +93,6 @@ else
         error = null;
         exito = null;
 
-        // Validación rápida en pantalla; la validación definitiva la hace la base de datos
         if (ProductoSeleccionado is not null && modelo.Cantidad > ProductoSeleccionado.Existencia)
         {
             error = $"Solo hay {ProductoSeleccionado.Existencia} piezas disponibles.";
@@ -111,8 +110,7 @@ else
                 var resultado = await respuesta.Content.ReadFromJsonAsync<RespuestaPedido>();
                 exito = $"Pedido #{resultado?.IdPedido} registrado correctamente.";
                 modelo = new();
-                await CargarProductos(); // refresca las existencias ya descontadas
-            }
+                await CargarProductos(); 
             else
             {
                 error = await respuesta.LeerErrorAsync();

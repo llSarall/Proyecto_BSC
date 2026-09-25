@@ -21,7 +21,6 @@ public static class HttpResponseExtensions
         }
         catch
         {
-            // La respuesta no traía el formato { mensaje }
         }
 
         return "Ocurrió un error al procesar la solicitud.";

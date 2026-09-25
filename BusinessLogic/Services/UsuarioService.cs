@@ -51,7 +51,6 @@ namespace BusinessLogic.Services
             }
             catch (FormatException)
             {
-                // El hash guardado no tiene un formato válido (ej. usuarios de prueba con hash temporal)
                 return null;
             }
         }

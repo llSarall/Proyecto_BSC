@@ -23,8 +23,6 @@ public class PedidoService : IPedidoService
         if (request.Cantidad <= 0)
             throw new ReglaNegocioException("La cantidad debe ser mayor a cero.");
 
-        // La validación de existencia vive en sp_crear_pedido, dentro de la
-        // transacción y con bloqueo de fila, para evitar condiciones de carrera.
         return _pedidoRepository.CrearAsync(cliente, idUsuarioRegistro, request.IdProducto, request.Cantidad);
     }
 
