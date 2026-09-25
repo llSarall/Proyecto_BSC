@@ -111,6 +111,7 @@ else
                 exito = $"Pedido #{resultado?.IdPedido} registrado correctamente.";
                 modelo = new();
                 await CargarProductos(); 
+            }
             else
             {
                 error = await respuesta.LeerErrorAsync();
